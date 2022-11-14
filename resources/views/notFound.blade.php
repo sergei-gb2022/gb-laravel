@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', __('Home'))
+@section('title', __('Not found'))
 
 @section('menu')
     @include('menu')
@@ -11,7 +11,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Wellcome!') }}</div>
+                <div class="card-header">{{ __('The requested information was not found') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -20,10 +20,12 @@
                         </div>
                     @endif
 
-                    {{ __('Here is a little description of our news aggregator....') }}
+                    {{ __('Try to change your request') }}
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+

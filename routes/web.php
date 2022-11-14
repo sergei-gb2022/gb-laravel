@@ -17,10 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/auth', [HomeController::class, 'auth'])->name('auth');
-Route::post('/auth', [HomeController::class, 'auth'])->name('auth');
-Route::get('/add-news-item', [HomeController::class, 'addNewsItem'])->name('add-news-item');
-Route::post('/add-news-item', [HomeController::class, 'addNewsItem'])->name('add-news-item');
+Route::match(['get', 'post'],'/add-news-item', [HomeController::class, 'addNewsItem'])->name('add-news-item');
 
 Route::name('news.')
     ->prefix('news')
