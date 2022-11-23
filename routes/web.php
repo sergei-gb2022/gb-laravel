@@ -22,9 +22,9 @@ Route::match(['get', 'post'], '/add-news-item', [HomeController::class, 'addNews
 Route::name('news.')
     ->prefix('news')
     ->group(function () {
-        Route::get('/', [CategoriesController::class, 'index'])->name('index');
-        Route::get('/categories/{slug}', [NewsController::class, 'listCategory'])->name('category');
-        Route::get('/articles/{slug}', [NewsController::class, 'show'])->name('detail');
+        Route::get('/categories/', [CategoriesController::class, 'index'])->name('categories');
+        Route::get('/news/', [NewsController::class, 'index'])->name('index');
+        Route::get('/news/{slug}', [NewsController::class, 'show'])->name('detail');
     });
 
 Route::name('admin.')
