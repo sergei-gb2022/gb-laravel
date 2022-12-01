@@ -12,14 +12,13 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $news = DB::table('news')->get();
-
-        return view('news.index')
-            ->with('news', $news);
+        $news = News::query()->paginate(5);
+        
+        return view('news.index')->with('news', $news);
     }
     public function show(string $slug)
     {
-        $newsItem = DB::table('news')->where('slug', '=', $slug)->first();
+        $newsItem =News::query()->where('slug', '=', $slug)->first();
         return view('news.detail')->with('newsItem', $newsItem);
     }
 }

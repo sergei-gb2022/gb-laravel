@@ -158,5 +158,12 @@
         "title": "Something about Health #20 ",
         "text": "Here is a text #20 about Health...",
         "slug": "something-about-health-20"
+    },
+    {
+        "title": "12342",
+        "categoryId": "4",
+        "text": "23423",
+        "isPrivate": false,
+        "slug": "12342"
     }
 ]
