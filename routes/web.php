@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\IndexController as AdminIndexController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\CategoriesController as AdminCategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,16 @@ Route::name('admin.')
                 Route::get('/edit/{news}', [AdminNewsController::class, 'edit'])->name('edit');
                 Route::post('/update/{news}', [AdminNewsController::class, 'update'])->name('update');
                 Route::delete('/delete/{news}', [AdminNewsController::class, 'delete'])->name('delete');
+            });
+            Route::name('categories.')
+            ->prefix('categories')
+            ->group(function () {
+                Route::get('/', [AdminCategoriesController::class, 'index'])->name('index');
+                //CRUD
+                Route::match(['get', 'post'], '/create', [AdminCategoriesController::class, 'create'])->name('create');
+                Route::get('/edit/{category}', [AdminCategoriesController::class, 'edit'])->name('edit');
+                Route::post('/update/{category}', [AdminCategoriesController::class, 'update'])->name('update');
+                Route::delete('/delete/{category}', [AdminCategoriesController::class, 'delete'])->name('delete');
             });
     });
 
