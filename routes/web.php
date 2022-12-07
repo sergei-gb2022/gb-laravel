@@ -22,9 +22,14 @@ Route::match(['get', 'post'], '/add-news-item', [HomeController::class, 'addNews
 Route::name('news.')
     ->prefix('news')
     ->group(function () {
-        Route::get('/categories/', [CategoriesController::class, 'index'])->name('categories');
-        Route::get('/news/', [NewsController::class, 'index'])->name('index');
-        Route::get('/news/{slug}', [NewsController::class, 'show'])->name('detail');
+        Route::get('/', [NewsController::class, 'index'])->name('index');
+        Route::get('/{slug}', [NewsController::class, 'show'])->name('detail');
+    });
+Route::name('categories.')
+    ->prefix('categories')
+    ->group(function () {
+        Route::get('/', [CategoriesController::class, 'index'])->name('index');
+        Route::get('/{slug}', [CategoriesController::class, 'show'])->name('detail');
     });
 
 Route::name('admin.')
@@ -33,11 +38,11 @@ Route::name('admin.')
     ->group(function () {
         Route::get('/', [\App\Http\Controllers\Admin\IndexController::class, 'index'])->name('index');
         Route::name('news.')
-        ->prefix('news')
-        ->group(function () {
-            Route::match(['get', 'post'], '/create', [\App\Http\Controllers\Admin\NewsController::class, 'create'])->name('create');
-            Route::match(['get', 'post'], '/download', [\App\Http\Controllers\Admin\NewsController::class, 'download'])->name('download');
-        });
+            ->prefix('news')
+            ->group(function () {
+                Route::match(['get', 'post'], '/create', [\App\Http\Controllers\Admin\NewsController::class, 'create'])->name('create');
+                Route::match(['get', 'post'], '/download', [\App\Http\Controllers\Admin\NewsController::class, 'download'])->name('download');
+            });
     });
 
 Auth::routes();
