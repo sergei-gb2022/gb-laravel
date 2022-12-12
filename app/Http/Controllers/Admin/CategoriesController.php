@@ -24,31 +24,48 @@ class CategoriesController extends Controller
         $category = new Category();
 
         if ($request->isMethod('post')) {
-            $category->fill($request->all());
-            $category->slug=Str::slug($category->title);
-            $category->save();
-            return redirect()->route('admin.categories.index')->with('success', 'A category item was added successfully!');
+            return $this->store($request, $category);
         }
 
         return view('admin.categories.create', [
             'category' => $category,
         ]);
     }
+    public function store(Request $request, Category $category)
+    {
+        //TODO: check unique slug
+        $tableNameCategory = (new Category())->getTable();
+        $this->validate($request, [
+            'title' => 'required|min:3|max:20|unique:'.$tableNameCategory.',title',
+        ], [], [
+            'title' => 'Title',
+            'text' => 'Text',
+            'category_id' => "News category"
+        ]);
+
+        $successMessage = 'The category was successfully updated!';
+        if ($category->id == null) {
+            $successMessage = 'A category was added successfully!';
+        }
+
+        $category->fill($request->all());
+        $category->slug = Str::slug($category->title);
+        $category->save();
+        return redirect()->route('admin.categories.index')->with('success', $successMessage);
+    }
 
     public function edit(Category $category)
     {
-        return view('admin.categories.create', [            
+        return view('admin.categories.create', [
             'category' => $category
         ]);
     }
 
+
     public function update(Request $request, Category $category)
     {
 
-        $category->fill($request->all());
-        $category->slug=Str::slug($category->title);
-        $category->save();
-        return redirect()->route('admin.categories.index')->with('success', 'The category was successfully updated!');
+        return $this->store($request, $category);
     }
 
     public function delete(Category $category)

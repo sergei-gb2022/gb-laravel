@@ -25,10 +25,7 @@ class NewsController extends Controller
         $news = new News();
 
         if ($request->isMethod('post')) {
-            $news->fill($request->all());
-            $news->slug=Str::slug($news->title);
-            $news->save();
-            return redirect()->route('admin.news.index')->with('success', 'A news item was added successfully!');
+            return $this->store($request, $news);
         }
 
         return view('admin.news.create', [
@@ -45,14 +42,35 @@ class NewsController extends Controller
         ]);
     }
 
-    public function update(Request $request, News $news)
+    public function store(Request $request, News $news)
     {
+        $tableNameCategory = (new Category())->getTable();
+        $this->validate($request, [
+            'title' => 'required|min:3|max:20',
+            'text' => 'required|min:3',
+            'isPrivate' => 'sometimes|in:1',
+            'category_id' => "required|exists:{$tableNameCategory},id"
+        ], [], [
+            'title' => 'Title',
+            'text' => 'Text',
+            'category_id' => "News category"
+        ]);
 
+        $successMessage = 'The news item was successfully updated!';
+        if ($news->id == null) {
+            $successMessage = 'A news item was added successfully!';
+        }
         $news->fill($request->all());
         $news->isPrivate = isset($request->isPrivate);
-        $news->slug=Str::slug($news->title);
+        $news->slug = Str::slug($news->title);
         $news->save();
-        return redirect()->route('admin.news.index')->with('success', 'The news item was successfully updated!');
+        return redirect()->route('admin.news.index')->with('success', $successMessage);
+    }
+
+
+    public function update(Request $request, News $news)
+    {
+        return $this->store($request, $news);
     }
 
     public function delete(News $news)

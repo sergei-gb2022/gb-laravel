@@ -27,12 +27,19 @@
                             @csrf
                             <div class="form-group">
                                 <label for="newsTitle">Title</label>
+                                @if ($errors->has('title'))
+                                    <div class="alert alert-danger" role="alert">
+                                        @foreach ($errors->get('title') as $error)
+                                            {{ $error }}
+                                        @endforeach
+                                    </div>
+                                @endif
                                 <input type="text" name="title" id="newsTitle" class="form-control"
                                     value="{{ $category->title ?? old('title') }}">
                             </div>
                             <div class="form-group">
                                 <input type="submit" class="btn btn-outline-primary"
-                                    value="@if ($category->id) Update @else Add @endif">
+                                    value="{{ $category->id ? 'Update' : 'Add' }}">
                             </div>
                         </form>
                     </div>
