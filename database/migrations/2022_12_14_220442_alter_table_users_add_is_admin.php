@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('news', function (Blueprint $table) {
-            $table->unsignedBigInteger('category_id')->nullable(false);
-            $table->foreign('category_id')->references('id')->on('categories');
+        Schema::table('users', function (Blueprint $table) {
+            $table->boolean('is_admin')->default(false);
+
         });
     }
 
@@ -26,9 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('news', function (Blueprint $table) {
-            $table->dropForeign(['category_id']);
-            $table->dropColumn(['category_id']);
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn(['is_admin']);
         });
     }
 };

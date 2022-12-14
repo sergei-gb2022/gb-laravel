@@ -12,27 +12,53 @@ class CategoriesController extends Controller
 
     public function index()
     {
-        $categories = Category::query()->paginate(5);
+        $categories = Category::query()->paginate(20);
 
         return view('admin.categories.index')->with('categories', $categories);
     }
 
 
 
-    public function create(Request $request)
+    public function create()
     {
         $category = new Category();
-
-        if ($request->isMethod('post')) {
-            return $this->store($request, $category);
-        }
-
         return view('admin.categories.create', [
             'category' => $category,
         ]);
     }
-    public function store(Request $request, Category $category)
+
+    public function store(Request $request)
     {
+        $category = new Category();
+        return $this->saveData($request, $category);
+    }
+
+    public function edit(Category $category)
+    {
+        return view('admin.categories.create', [
+            'category' => $category
+        ]);
+    }
+
+
+    public function update(Request $request, Category $category)
+    {
+
+        return $this->saveData($request, $category);
+    }
+
+    public function destroy(Category $category)
+    {
+        $category->delete();
+        return redirect()->route('admin.categories.index')->with('success', 'The category was successfully deleted!');
+    }
+
+    /**
+     * Saves data for create and update
+     *
+     * @return void
+     */
+    private function saveData(Request $request, Category $category){
         //TODO: check unique slug
         $tableNameCategory = (new Category())->getTable();
         $this->validate($request, [
@@ -52,25 +78,5 @@ class CategoriesController extends Controller
         $category->slug = Str::slug($category->title);
         $category->save();
         return redirect()->route('admin.categories.index')->with('success', $successMessage);
-    }
-
-    public function edit(Category $category)
-    {
-        return view('admin.categories.create', [
-            'category' => $category
-        ]);
-    }
-
-
-    public function update(Request $request, Category $category)
-    {
-
-        return $this->store($request, $category);
-    }
-
-    public function delete(Category $category)
-    {
-        $category->delete();
-        return redirect()->route('admin.categories.index')->with('success', 'The category was successfully deleted!');
     }
 }

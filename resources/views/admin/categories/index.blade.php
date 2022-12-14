@@ -30,7 +30,7 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <form action="{{ route('admin.categories.delete', $category) }}" method="post">
+                                            <form action="{{ route('admin.categories.destroy', $category) }}" method="post">
                                                 @csrf
                                                 @method('DELETE')
                                                 <input type="submit" class="btn btn-danger" value="Delete">

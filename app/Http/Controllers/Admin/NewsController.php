@@ -13,25 +13,27 @@ class NewsController extends Controller
 
     public function index()
     {
-        $news = News::query()->paginate(5);
+        $news = News::query()->paginate(20);
 
         return view('admin.news.index')->with('news', $news);
     }
 
 
 
-    public function create(Request $request)
+    public function create()
     {
         $news = new News();
-
-        if ($request->isMethod('post')) {
-            return $this->store($request, $news);
-        }
-
         return view('admin.news.create', [
             'news' => $news,
             'categories' =>  Category::all()
         ]);
+    }
+
+
+    public function store(Request $request)
+    {
+        $news = new News();
+        return $this->saveData($request, $news);
     }
 
     public function edit(News $news)
@@ -42,11 +44,28 @@ class NewsController extends Controller
         ]);
     }
 
-    public function store(Request $request, News $news)
+
+    public function update(Request $request, News $news)
+    {
+        return $this->saveData($request, $news);
+    }
+
+    public function destroy(News $news)
+    {
+        $news->delete();
+        return redirect()->route('admin.news.index')->with('success', 'The news item was successfully deleted!');
+    }
+    /**
+     * Saves data for create and update
+     *
+     * @return void
+     */
+    private function saveData(Request $request, News $news)
     {
         $tableNameCategory = (new Category())->getTable();
+        $tableNameNews=(new News())->getTable();
         $this->validate($request, [
-            'title' => 'required|min:3|max:20',
+            'title' => 'required|min:3|max:20|unique:'.$tableNameNews.',title',
             'text' => 'required|min:3',
             'isPrivate' => 'sometimes|in:1',
             'category_id' => "required|exists:{$tableNameCategory},id"
@@ -65,17 +84,5 @@ class NewsController extends Controller
         $news->slug = Str::slug($news->title);
         $news->save();
         return redirect()->route('admin.news.index')->with('success', $successMessage);
-    }
-
-
-    public function update(Request $request, News $news)
-    {
-        return $this->store($request, $news);
-    }
-
-    public function delete(News $news)
-    {
-        $news->delete();
-        return redirect()->route('admin.news.index')->with('success', 'The news item was successfully deleted!');
     }
 }

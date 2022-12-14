@@ -21,9 +21,10 @@
                     </div>
                     <div class="card-body">
                         <form
-                            action="@if (!$news->id) {{ route('admin.news.create') }}@else{{ route('admin.news.update', $news) }} @endif"
+                            action="@if (!$news->id) {{ route('admin.news.store') }}@else{{ route('admin.news.update', $news) }} @endif"
                             method="post">
                             @csrf
+                            @if($news->id) @method('PUT') @endif
                             <div class="form-group">
                                 <label for="newsTitle">Title</label>
                                 @if ($errors->has('title'))
