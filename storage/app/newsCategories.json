@@ -1,0 +1,32 @@
+[
+    {
+        "id": "1",
+        "title": "World News",
+        "slug": "world-news"
+    },
+    {
+        "id": "2",
+        "title": "Hi-Tech news",
+        "slug": "hi-tech-news"
+    },
+    {
+        "id": "3",
+        "title": "Sport",
+        "slug": "sport"
+    },
+    {
+        "id": "4",
+        "title": "Travel",
+        "slug": "travel"
+    },
+    {
+        "id": "5",
+        "title": "Health",
+        "slug": "health"
+    },
+    {
+        "id": "6",
+        "title": "A New and Empty Category",
+        "slug": "a-new-and-empty-category"
+    }
+]
