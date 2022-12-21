@@ -10,7 +10,9 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "laravel/ui": "^4.0"
+        "laravel/ui": "^4.0",
+        "orchestra/parser": "^7.0",
+        "socialiteproviders/github": "^4.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",

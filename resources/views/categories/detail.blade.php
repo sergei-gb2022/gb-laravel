@@ -18,7 +18,9 @@
                             @forelse ($news as $newsItem)
                                 <li class="nav-item">
                                     <a class="nav-link"
-                                        href="{{ route('news.detail', $newsItem->slug) }}">{{ $newsItem->title }}</a>
+                                        href="{{ route('news.detail', $newsItem->slug) }}">
+                                        <img src="{{ $newsItem->image }}" width="80" alt="" style="margin:5px">
+                                        {{ $newsItem->title }}</a>
                                 </li>
                             @empty
                                 <li>No news</li>

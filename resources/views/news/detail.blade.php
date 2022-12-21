@@ -15,7 +15,15 @@
                         <div class="card-header">{{ __($newsItem->title) }}</div>
                         <div class="card-body">
                             @if ($newsItem->isPrivate !== true)
-                                {{ $newsItem->text }}
+                                @if (!empty(trim($newsItem->image)))
+                                    <div class="card-img" style="text-align: center">
+                                        <img src="{{ $newsItem->image }}" alt="" >
+                                    </div>
+                                    
+                                @endif
+                                <div>
+                                    {{ $newsItem->text }}
+                                </div>
                             @else
                                 <i>-- This is a PRIVATE news item. The content is hidden --</i>
                             @endif
