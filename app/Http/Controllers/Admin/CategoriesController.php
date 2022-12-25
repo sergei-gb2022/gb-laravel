@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+
 
 class CategoriesController extends Controller
 {
@@ -62,7 +64,11 @@ class CategoriesController extends Controller
         //TODO: check unique slug
         $tableNameCategory = (new Category())->getTable();
         $this->validate($request, [
-            'title' => 'required|min:3|max:200|unique:'.$tableNameCategory.',title',
+            'title' =>
+            [
+                'required', 'min:3', 'max:200',
+                Rule::unique($tableNameCategory)->ignore($category->id),
+            ],
         ], [], [
             'title' => 'Title',
             'text' => 'Text',
