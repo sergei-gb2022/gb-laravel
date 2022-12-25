@@ -62,7 +62,7 @@ class CategoriesController extends Controller
         //TODO: check unique slug
         $tableNameCategory = (new Category())->getTable();
         $this->validate($request, [
-            'title' => 'required|min:3|max:20|unique:'.$tableNameCategory.',title',
+            'title' => 'required|min:3|max:200|unique:'.$tableNameCategory.',title',
         ], [], [
             'title' => 'Title',
             'text' => 'Text',

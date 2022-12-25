@@ -20,16 +20,18 @@
                         @endif
                     </div>
                     <div class="card-body">
-                        <form
+                        <form id="newsEditor"
                             action="@if (!$news->id) {{ route('admin.news.store') }}@else{{ route('admin.news.update', $news) }} @endif"
                             method="post">
                             @csrf
-                            @if($news->id) @method('PUT') @endif
+                            @if ($news->id)
+                                @method('PUT')
+                            @endif
                             <div class="form-group">
                                 <label for="newsTitle">Title</label>
                                 @if ($errors->has('title'))
                                     <div class="alert alert-danger" role="alert">
-                                        @foreach($errors->get('title') as $error)
+                                        @foreach ($errors->get('title') as $error)
                                             {{ $error }}
                                         @endforeach
                                     </div>
@@ -67,6 +69,8 @@
                                     </div>
                                 @endif
                                 <textarea name="text" id="newsText" class="form-control">{{ $news->text ?? old('text') }}</textarea>
+                                <ckeditor-component></ckeditor-component>                                
+                                
                             </div>
 
                             <div class="form-check">

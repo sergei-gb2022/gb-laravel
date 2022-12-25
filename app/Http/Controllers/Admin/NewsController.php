@@ -7,6 +7,7 @@ use App\Models\News;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class NewsController extends Controller
 {
@@ -63,9 +64,14 @@ class NewsController extends Controller
     private function saveData(Request $request, News $news)
     {
         $tableNameCategory = (new Category())->getTable();
-        $tableNameNews=(new News())->getTable();
+        $tableNameNews = (new News())->getTable();
+
         $this->validate($request, [
-            'title' => 'required|min:3|max:20|unique:'.$tableNameNews.',title',
+            'title' =>
+            [
+                'required', 'min:3', 'max:200',
+                Rule::unique($tableNameNews)->ignore($news->id),
+            ],
             'text' => 'required|min:3',
             'isPrivate' => 'sometimes|in:1',
             'category_id' => "required|exists:{$tableNameCategory},id"

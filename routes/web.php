@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\ParserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\UsersController as AdminUsersController;
 use App\Http\Controllers\Auth\Soc\LoginController as SocAuthController;
+use App\Http\Controllers\Admin\FileManagerController;
+use App\Http\Controllers\Admin\ResourcesController as AdminResourcesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,8 +54,8 @@ Route::name('admin.')
 
         Route::resource('/users', AdminUsersController::class)->except(['show']);
 
+        Route::resource('/resources', AdminResourcesController::class)->except(['show']);
         Route::get('/parser', [ParserController::class, 'index'])->name('parser');
-
     });
 
 Auth::routes();
@@ -65,3 +67,6 @@ Route::get('/auth/soc/{socialiteDriver}/response', [SocAuthController::class, 'r
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::post('/file-manager/upload', [FileManagerController::class, 'upload'])->name('fileUpload');
